@@ -4,11 +4,12 @@ ARG CACHE_SERVER_VERSION=6.3.0
 
 LABEL org.label-schema.version=${CACHE_SERVER_VERSION}
 
-RUN apk add --no-cache --virtual build-dependencies \
-    wget \
-  && wget -q https://github.com/Yelp/dumb-init/releases/download/v1.2.2/dumb-init_1.2.2_amd64 -O /usr/local/bin/dumb-init \
-  && chmod +x /usr/local/bin/dumb-init \
-  && apk del --purge build-dependencies
+# Update packages and install software
+RUN apt-get update \
+    && curl -sLO https://archive.raspbian.org/raspbian/pool/main/d/dumb-init/dumb-init_1.0.3-1_armhf.deb \
+    && dpkg -i dumb-init_*.deb \
+    && rm -rf dumb-init_*.deb \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /srv/unity
 
