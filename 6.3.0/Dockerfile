@@ -8,7 +8,8 @@ RUN apk add dumb-init
 
 WORKDIR /srv/unity
 
-COPY entrypoint.sh entrypoint.sh
+ADD https://raw.githubusercontent.com/SpAMCAN/docker-unity-cache-server-ARM/master/6.3.0/entrypoint.sh /srv/unity/
+RUN chmod +x /srv/unity/entrypoint.sh
 
 RUN npm i -g unity-cache-server@${CACHE_SERVER_VERSION}
 
